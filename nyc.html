@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priyanka's NYC Birthday Dreams 🗽</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            color: #fff;
+        }
+
+        /* Parallax Container */
+        .parallax-container {
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            perspective: 1px;
+        }
+
+        .parallax-element {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .parallax-back {
+            transform: translateZ(-1px) scale(2);
+        }
+
+        .parallax-base {
+            transform: translateZ(0);
+        }
+
+        /* NYC Skyline Background */
+        .nyc-skyline {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(180deg,
+                #1a1a2e 0%,
+                #16213e 30%,
+                #0f3460 60%,
+                #533483 100%);
+            z-index: -3;
+        }
+
+        .buildings {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+        }
+
+        .building {
+            position: absolute;
+            bottom: 0;
+            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+            border-top: 2px solid #333;
+        }
+
+        .building::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(90deg, transparent 0px, transparent 8px, rgba(255,255,0,0.3) 8px, rgba(255,255,0,0.3) 10px),
+                repeating-linear-gradient(0deg, transparent 0px, transparent 15px, rgba(255,255,0,0.2) 15px, rgba(255,255,0,0.2) 17px);
+            animation: windowFlicker 3s infinite alternate;
+        }
+
+        @keyframes windowFlicker {
+            0%, 50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        /* Building positions */
+        .building:nth-child(1) { left: 5%; width: 8%; height: 70%; animation-delay: 0s; }
+        .building:nth-child(2) { left: 15%; width: 12%; height: 85%; animation-delay: 0.5s; }
+        .building:nth-child(3) { left: 30%; width: 10%; height: 75%; animation-delay: 1s; }
+        .building:nth-child(4) { left: 45%; width: 15%; height: 90%; animation-delay: 1.5s; }
+        .building:nth-child(5) { left: 65%; width: 8%; height: 65%; animation-delay: 2s; }
+        .building:nth-child(6) { left: 75%; width: 12%; height: 80%; animation-delay: 2.5s; }
+        .building:nth-child(7) { left: 90%; width: 10%; height: 70%; animation-delay: 3s; }
+
+        /* Neon Signs */
+        .neon-signs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .neon-sign {
+            position: absolute;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+            animation: neonFlicker 2s infinite alternate;
+        }
+
+        @keyframes neonFlicker {
+            0%, 50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .neon-sign:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            color: #ff0080;
+            font-size: 2rem;
+            animation-delay: 0s;
+        }
+
+        .neon-sign:nth-child(2) {
+            top: 30%;
+            right: 15%;
+            color: #00ff80;
+            font-size: 1.5rem;
+            animation-delay: 1s;
+        }
+
+        .neon-sign:nth-child(3) {
+            top: 50%;
+            left: 20%;
+            color: #0080ff;
+            font-size: 1.8rem;
+            animation-delay: 2s;
+        }
+
+        .neon-sign:nth-child(4) {
+            top: 60%;
+            right: 25%;
+            color: #ffff00;
+            font-size: 1.3rem;
+            animation-delay: 3s;
+        }
+
+        /* Main Content */
+        .content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff0080, #00ff80, #0080ff, #ffff00);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .times-square-btn {
+            background: linear-gradient(45deg, #ff0080, #ff4040);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(255, 0, 128, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 0, 128, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(255, 0, 128, 0.5); }
+        }
+
+        .times-square-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 0, 128, 0.7);
+        }
+
+        /* Dream Cards Section */
+        .dreams-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .dreams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dream-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dream-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .dream-card:hover::before {
+            animation: shimmer 1s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .dream-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .card-text {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Taxi Animation */
+        .taxi {
+            position: fixed;
+            bottom: 15%;
+            font-size: 2rem;
+            z-index: 2;
+            animation: taxiDrive 15s linear infinite;
+        }
+
+        @keyframes taxiDrive {
+            0% { left: -100px; }
+            100% { left: 100vw; }
+        }
+
+        /* Birthday Message Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .modal-text {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .close-btn {
+            background: linear-gradient(45deg, #ff0080, #ff4040);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 128, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .dreams-section {
+                padding: 3rem 1rem;
+            }
+
+            .neon-sign {
+                font-size: 1rem !important;
+            }
+
+            .building {
+                height: 50% !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .times-square-btn {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="birthdayAudio" src="hb_orcher.m4a" preload="auto"></audio>
+
+    <div class="nyc-skyline">
+        <div class="buildings">
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+        </div>
+    </div>
+
+    <div class="neon-signs">
+        <div class="neon-sign">NYC</div>
+        <div class="neon-sign">DREAMS</div>
+        <div class="neon-sign">BIRTHDAY</div>
+        <div class="neon-sign">PRIYANKA</div>
+    </div>
+
+    <div class="taxi">🚕</div>
+
+    <div class="parallax-container">
+        <div class="content">
+            <section class="hero-section">
+                <h1 class="hero-title">HAPPY BIRTHDAY PRIYANKA!</h1>
+                <p class="hero-subtitle">🗽 Your NYC Dreams Await 🗽</p>
+                <button class="times-square-btn" onclick="showModalAndPlaySong()">
+                    ✨ Times Square Wishes ✨
+                </button>
+            </section>
+
+            <section class="dreams-section">
+                <h2 class="section-title">NYC BIRTHDAY DREAMS</h2>
+                <div class="dreams-grid">
+                    <div class="dream-card">
+                        <span class="card-icon">🗽</span>
+                        <h3 class="card-title">Statue of Liberty</h3>
+                        <p class="card-text">May your birthday be as iconic and inspiring as Lady Liberty herself, standing tall with dreams that light up the world!</p>
+                    </div>
+
+                    <div class="dream-card">
+                        <span class="card-icon">🌃</span>
+                        <h3 class="card-title">Times Square Magic</h3>
+                        <p class="card-text">Like the dazzling lights of Times Square, may your special day sparkle with endless joy, excitement, and unforgettable moments!</p>
+                    </div>
+
+                    <div class="dream-card">
+                        <span class="card-icon">🌉</span>
+                        <h3 class="card-title">Brooklyn Bridge Dreams</h3>
+                        <p class="card-text">Just as the Brooklyn Bridge connects two worlds, may this birthday connect you to all your dreams and aspirations in the Big Apple!</p>
+                    </div>
+
+                    <div class="dream-card">
+                        <span class="card-icon">🎭</span>
+                        <h3 class="card-title">Broadway Wishes</h3>
+                        <p class="card-text">May your life be as spectacular as a Broadway show, filled with standing ovations, bright lights, and dreams coming true!</p>
+                    </div>
+
+                    <div class="dream-card">
+                        <span class="card-icon">🏙️</span>
+                        <h3 class="card-title">Empire State Dreams</h3>
+                        <p class="card-text">Reach for the sky like the Empire State Building! May your birthday mark the beginning of achieving heights you've only dreamed of!</p>
+                    </div>
+
+                    <div class="dream-card">
+                        <span class="card-icon">🚕</span>
+                        <h3 class="card-title">Yellow Cab Adventures</h3>
+                        <p class="card-text">Life is an adventure waiting to happen! May your journey to NYC and beyond be filled with exciting discoveries and amazing experiences!</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="modal" id="birthdayModal">
+        <div class="modal-content">
+            <h3 class="modal-title">🎂 NYC Birthday Message 🎂</h3>
+            <p class="modal-text">
+                Dear Priyanka,<br><br>
+                From the bright lights of Times Square to the towering skyscrapers that touch the clouds, New York City awaits your arrival!
+                <br><br>
+                May this birthday be the stepping stone to making your NYC dreams come true. The city that never sleeps is ready to welcome someone as amazing as you!
+                <br><br>
+                Happy Birthday! 🗽✨
+            </p>
+            <button class="close-btn" onclick="hideModalAndStopSong()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Get the audio element
+        const birthdayAudio = document.getElementById('birthdayAudio');
+
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-back');
+
+            parallaxElements.forEach(element => {
+                const speed = 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Modal Functions
+        function showModalAndPlaySong() {
+            document.getElementById('birthdayModal').classList.add('show');
+            // Play the birthday song
+            birthdayAudio.play().catch(error => {
+                // Autoplay might be blocked by the browser, handle accordingly if needed
+                console.log("Audio playback was prevented:", error);
+            });
+        }
+
+        function hideModalAndStopSong() {
+            document.getElementById('birthdayModal').classList.remove('show');
+            // Pause the birthday song
+            birthdayAudio.pause();
+            birthdayAudio.currentTime = 0; // Rewind to the beginning
+        }
+
+        // Close modal on outside click
+        document.getElementById('birthdayModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                hideModalAndStopSong();
+            }
+        });
+
+        // Dynamic neon sign content
+        const neonMessages = [
+            'HAPPY BIRTHDAY!',
+            'NYC DREAMS',
+            'TIMES SQUARE',
+            'BIG APPLE',
+            'PRIYANKA',
+            'BROADWAY'
+        ];
+
+        function updateNeonSigns() {
+            const signs = document.querySelectorAll('.neon-sign');
+            signs.forEach((sign, index) => {
+                setTimeout(() => {
+                    sign.textContent = neonMessages[Math.floor(Math.random() * neonMessages.length)];
+                }, index * 1000);
+            });
+        }
+
+        // Update neon signs every 10 seconds
+        setInterval(updateNeonSigns, 10000);
+
+        // Add floating elements
+        function createFloatingElement() {
+            const elements = ['🎂', '🎉', '🎈', '⭐', '✨', '🗽'];
+            const element = document.createElement('div');
+            element.textContent = elements[Math.floor(Math.random() * elements.length)];
+            element.style.position = 'fixed';
+            element.style.left = Math.random() * 100 + '%';
+            element.style.top = '100%';
+            element.style.fontSize = Math.random() * 20 + 20 + 'px';
+            element.style.pointerEvents = 'none';
+            element.style.zIndex = '10';
+            element.style.animation = 'floatUp 8s linear forwards';
+
+            document.body.appendChild(element);
+
+            setTimeout(() => element.remove(), 8000);
+        }
+
+        // Add float animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatUp {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create floating elements periodically
+        setInterval(createFloatingElement, 3000);
+
+        // Smooth scrolling for better parallax effect
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add smooth scroll behavior
+            document.documentElement.style.scrollBehavior = 'smooth';
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'970bd91e167dc266',t:'MTc1NTQ2MTc3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
